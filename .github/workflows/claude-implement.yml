@@ -3,10 +3,11 @@ name: Claude Implement Issue
 on:
   issues:
     types: [labeled]
+  workflow_dispatch:
 
 jobs:
   claude-implement:
-    if: github.event.label.name == 'ai-implement'
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'ai-implement'
     runs-on: ubuntu-latest
 
     permissions:
@@ -24,16 +25,21 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
-          allowed_tools: "Bash,Edit,Write,Read,Glob,Grep"
+          claude_args: "--max-turns 12"
           prompt: |
             You are the primary autonomous evolution engine for this repository.
+
+            The GitHub issue you must implement is:
+
+            Issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}
+
+            ${{ github.event.issue.body }}
 
             Your task is not complete until one of these happens:
             1. A pull request is created or updated with the implementation
             2. You encounter a hard blocking error and explain it clearly
 
             Instructions:
-            - Read the labeled GitHub issue
             - Inspect the repository
             - Create a dedicated branch for the task
             - Implement the requested change
