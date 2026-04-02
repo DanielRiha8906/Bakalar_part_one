@@ -4,6 +4,16 @@ on:
   issues:
     types: [labeled]
   workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to implement'
+        required: true
+      issue_title:
+        description: 'Issue title'
+        required: true
+      issue_body:
+        description: 'Issue body / description'
+        required: false
 
 jobs:
   claude-implement:
@@ -15,15 +25,19 @@ jobs:
       issues: write
       pull-requests: write
       id-token: write
+      actions: read
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Run Claude Code Action
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           show_full_output: true
           claude_args: "--max-turns 12"
           prompt: |
@@ -31,9 +45,9 @@ jobs:
 
             The GitHub issue you must implement is:
 
-            Issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}
+            Issue #${{ github.event.issue.number || inputs.issue_number }}: ${{ github.event.issue.title || inputs.issue_title }}
 
-            ${{ github.event.issue.body }}
+            ${{ github.event.issue.body || inputs.issue_body }}
 
             Your task is not complete until one of these happens:
             1. A pull request is created or updated with the implementation
