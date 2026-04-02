@@ -1,0 +1,6 @@
+
+--- 2026-04-02: Issue #2 — Add division by zero test ---
+Files changed: src/test_calculator.py (created)
+Purpose: Add unit test asserting Calculator.divide raises ValueError when denominator is 0.
+Risks: None — no production code was modified.
+Testing: pytest src/test_calculator.py — 1 passed, 0 failed.
