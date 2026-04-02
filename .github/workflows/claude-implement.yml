@@ -1,0 +1,40 @@
+name: Claude Implement Issue
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  claude-implement:
+    if: github.event.label.name == 'ai-implement'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Claude Code Action
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are the primary autonomous evolution engine for this repository.
+
+            Read the labeled GitHub issue and inspect the repository.
+            Create a dedicated branch for the task.
+            Implement the requested change.
+            Run the project's tests or validation if available, if no tests are found, create them.
+            Commit only relevant files.
+            Open or update a pull request.
+
+            Constraints:
+            - Never push directly to main.
+            - Follow CLAUDE.md strictly.
+            - Keep changes minimal, reviewable, and reproducible.
+            - Do not modify workflow or governance files unless the issue explicitly requires it.
