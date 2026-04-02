@@ -39,7 +39,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           show_full_output: true
-          claude_args: "--max-turns 12"
+          claude_args: "--max-turns 24"
           prompt: |
             You are the primary autonomous evolution engine for this repository.
 
