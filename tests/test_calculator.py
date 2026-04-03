@@ -1,6 +1,7 @@
 import math
 import pytest
-from src.calculator import Calculator
+from unittest.mock import patch, call
+from src.calculator import Calculator, run_interactive
 
 
 class TestCalculatorAdd:
@@ -240,3 +241,74 @@ class TestCalculatorDivide:
     def test_divide_list_raises_type_error(self):
         with pytest.raises(TypeError):
             self.calc.divide([10], 2)
+
+
+class TestRunInteractive:
+    """Tests for the interactive user-input loop."""
+
+    def _run(self, inputs: list[str], capsys) -> str:
+        """Helper: patch input() with *inputs* and return captured stdout."""
+        with patch("builtins.input", side_effect=inputs):
+            run_interactive()
+        return capsys.readouterr().out
+
+    # --- quit / exit paths ---
+
+    def test_quit_at_operation_prompt(self, capsys):
+        out = self._run(["quit"], capsys)
+        assert "Goodbye!" in out
+
+    def test_exit_at_operation_prompt(self, capsys):
+        out = self._run(["exit"], capsys)
+        assert "Goodbye!" in out
+
+    # --- successful calculations ---
+
+    def test_add_then_quit(self, capsys):
+        out = self._run(["add", "3", "4", "no"], capsys)
+        assert "Result: 7.0" in out
+        assert "Goodbye!" in out
+
+    def test_subtract_then_quit(self, capsys):
+        out = self._run(["subtract", "10", "3", "no"], capsys)
+        assert "Result: 7.0" in out
+
+    def test_multiply_then_quit(self, capsys):
+        out = self._run(["multiply", "6", "7", "no"], capsys)
+        assert "Result: 42.0" in out
+
+    def test_divide_then_quit(self, capsys):
+        out = self._run(["divide", "10", "2", "no"], capsys)
+        assert "Result: 5.0" in out
+
+    # --- continue loop ---
+
+    def test_two_calculations_then_quit(self, capsys):
+        inputs = ["add", "1", "2", "yes", "multiply", "3", "4", "no"]
+        out = self._run(inputs, capsys)
+        assert "Result: 3.0" in out
+        assert "Result: 12.0" in out
+        assert "Goodbye!" in out
+
+    def test_yes_shorthand_continues_loop(self, capsys):
+        inputs = ["add", "1", "1", "y", "quit"]
+        out = self._run(inputs, capsys)
+        assert "Result: 2.0" in out
+        assert "Goodbye!" in out
+
+    # --- error handling ---
+
+    def test_unknown_operation_shows_error_then_continues(self, capsys):
+        out = self._run(["unknown_op", "quit"], capsys)
+        assert "Unknown operation" in out
+        assert "Goodbye!" in out
+
+    def test_invalid_number_shows_error_then_continues(self, capsys):
+        out = self._run(["add", "abc", "quit"], capsys)
+        assert "Invalid input" in out
+        assert "Goodbye!" in out
+
+    def test_divide_by_zero_shows_error(self, capsys):
+        out = self._run(["divide", "5", "0", "no"], capsys)
+        assert "Error: Cannot divide by zero" in out
+        assert "Goodbye!" in out

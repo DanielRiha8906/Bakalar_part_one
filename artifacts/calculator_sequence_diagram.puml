@@ -1,28 +1,53 @@
 @startuml calculator_sequence_diagram
 
 actor User
+participant "run_interactive()" as Loop
 participant "Calculator" as Calc
 
-User -> Calc ** : <<create>>
+User -> Loop ** : <<create>>
+Loop -> Calc ** : <<create>>
 
-User -> Calc : add(10, 5)
-Calc --> User : 15
+Loop --> User : print welcome & instructions
 
-User -> Calc : subtract(10, 5)
-Calc --> User : 5
+loop until user quits
+    Loop --> User : prompt: Operation?
+    User -> Loop : operation (or "quit"/"exit")
 
-User -> Calc : multiply(10, 5)
-Calc --> User : 50
+    alt user typed quit or exit
+        Loop --> User : print "Goodbye!"
+        Loop -> Loop : break
+    else unknown operation
+        Loop --> User : print error, retry loop
+    else valid operation
+        Loop --> User : prompt: First number?
+        User -> Loop : number a
 
-alt valid divisor
-    User -> Calc : divide(10, 5)
-    Calc --> User : 2.0
-else divisor is zero
-    User -> Calc : divide(10, 0)
-    Calc --> User : raises ValueError("Cannot divide by zero")
+        alt non-numeric input
+            Loop --> User : print "Invalid input", retry loop
+        else numeric
+            Loop --> User : prompt: Second number?
+            User -> Loop : number b
+
+            alt operation is divide and b == 0
+                Loop --> User : print "Error: Cannot divide by zero"
+            else normal calculation
+                Loop -> Calc : add/subtract/multiply/divide(a, b)
+                Calc --> Loop : result
+                Loop --> User : print "Result: <result>"
+            end
+
+            Loop --> User : prompt: Another calculation? (yes/no)
+            User -> Loop : answer
+
+            alt answer is not yes or y
+                Loop --> User : print "Goodbye!"
+                Loop -> Loop : break
+            end
+        end
+    end
 end
 
-User -> Calc !! : <<destroy>>
-note right : Program exits — no loop,\nruns once and terminates.
+Loop -> Calc !! : <<destroy>>
+Loop -> Loop !! : <<destroy>>
 
 @enduml
