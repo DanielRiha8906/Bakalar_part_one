@@ -137,8 +137,20 @@ In this project, Claude (this instance) **is** the self-evolution engine. It is 
 
 ---
 
+## Artifacts
+
+- Diagrams should be written in plant uml language and should be placed in folder 'artifacts/'
+- Development should be logged using these diagrams:
+    - Class diagram files for core classes
+    - Activity diagram
+    - Sequence Diagram
+
+
+---
+
 ## File Placement
 
 - New source files go in 'src//'
 - New test files go in 'tests/'
+- All development artifacts should be in 'artifacts/'
 - Keep sources and test directories separate
