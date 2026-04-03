@@ -1,0 +1,28 @@
+@startuml calculator_sequence_diagram
+
+actor User
+participant "Calculator" as Calc
+
+User -> Calc ** : <<create>>
+
+User -> Calc : add(10, 5)
+Calc --> User : 15
+
+User -> Calc : subtract(10, 5)
+Calc --> User : 5
+
+User -> Calc : multiply(10, 5)
+Calc --> User : 50
+
+alt valid divisor
+    User -> Calc : divide(10, 5)
+    Calc --> User : 2.0
+else divisor is zero
+    User -> Calc : divide(10, 0)
+    Calc --> User : raises ValueError("Cannot divide by zero")
+end
+
+User -> Calc !! : <<destroy>>
+note right : Program exits — no loop,\nruns once and terminates.
+
+@enduml

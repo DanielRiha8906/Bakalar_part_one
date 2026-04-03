@@ -1,4 +1,16 @@
 
+--- 2026-04-03: Issue #10 — Fix sequence diagram termination (PR #11 review) ---
+Files changed: artifacts/calculator_sequence_diagram.puml (revised)
+Purpose: Add explicit create/destroy lifecycle markers and an alt block showing both the valid-divisor and divide-by-zero paths. Adds a termination note clarifying the program runs once and exits — addressing reviewer question about how the sequence ends.
+Risks: Documentation-only change; no production code or tests modified.
+Testing: python -m pytest tests/ — 58 passed, 0 failed.
+
+--- 2026-04-03: Issue #10 — Development artifacts in PlantUML ---
+Files changed: artifacts/calculator_class_diagram.puml (created), artifacts/calculator_sequence_diagram.puml (created)
+Purpose: Add PlantUML artifacts for the Calculator class. Includes a class diagram documenting all four public methods and their signatures, and a sequence diagram illustrating typical usage including the divide-by-zero error case.
+Risks: Documentation-only change; no production code or tests modified.
+Testing: python3 -m pytest tests/ — 58 passed, 0 failed.
+
 --- 2026-04-03: Issue #7 — Development artifacts folder ---
 Files changed: artifacts/calculator_class_diagram.md (created)
 Purpose: Add artifacts/ folder with a Mermaid class diagram for calculator.py. The diagram documents all public methods of the Calculator class and must be kept in sync with future additions to the file.
