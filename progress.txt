@@ -1,4 +1,10 @@
 
+--- 2026-04-03: Issue #4 — Complete test suite for calculator.py ---
+Files changed: src/test_calculator.py (expanded from 1 test to 58 tests)
+Purpose: Add comprehensive unit tests for all four Calculator methods (add, subtract, multiply, divide). Each method now has tests for standard behavior, edge cases, invalid input, and large/precision values.
+Risks: No production code was modified. calculator.py is unchanged.
+Testing: python -m pytest src/test_calculator.py — 58 passed, 0 failed.
+
 --- 2026-04-02: Issue #2 — Add division by zero test ---
 Files changed: src/test_calculator.py (created)
 Purpose: Add unit test asserting Calculator.divide raises ValueError when denominator is 0.
