@@ -1,4 +1,10 @@
 
+--- 2026-04-03: Issue #12 — User input for calculator ---
+Files changed: src/calculator.py (added run_interactive()), tests/test_calculator.py (added TestRunInteractive with 11 tests), artifacts/calculator_sequence_diagram.puml (revised), artifacts/calculator_activity_diagram.puml (created)
+Purpose: Replace hardcoded __main__ block with an interactive loop (run_interactive()) that prompts the user for an operation and two numbers, displays the result, and asks whether to continue or quit. Supports all four operations and handles invalid input gracefully.
+Risks: No changes to the Calculator class itself — purely additive. The interactive function uses built-in input(), which is easily mocked in tests.
+Testing: python -m pytest tests/ — 69 passed, 0 failed (58 original + 11 new interactive tests).
+
 --- 2026-04-03: Issue #10 — Fix sequence diagram termination (PR #11 review) ---
 Files changed: artifacts/calculator_sequence_diagram.puml (revised)
 Purpose: Add explicit create/destroy lifecycle markers and an alt block showing both the valid-divisor and divide-by-zero paths. Adds a termination note clarifying the program runs once and exits — addressing reviewer question about how the sequence ends.

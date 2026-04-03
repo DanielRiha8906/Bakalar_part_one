@@ -1,0 +1,48 @@
+@startuml calculator_activity_diagram
+
+start
+
+:Print welcome message and available operations;
+
+repeat
+    :Prompt user for operation;
+    :Read operation input;
+
+    if (input is "quit" or "exit"?) then (yes)
+        :Print "Goodbye!";
+        stop
+    elseif (operation unknown?) then (yes)
+        :Print error — list valid operations;
+    else (valid operation)
+        :Prompt user for first number;
+        :Read first number input;
+
+        if (input is non-numeric?) then (yes)
+            :Print "Invalid input";
+        else (numeric)
+            :Prompt user for second number;
+            :Read second number input;
+
+            if (input is non-numeric?) then (yes)
+                :Print "Invalid input";
+            else (numeric)
+                if (divide by zero?) then (yes)
+                    :Print "Error: Cannot divide by zero";
+                else (no)
+                    :Perform calculation;
+                    :Print result;
+                endif
+
+                :Ask "Another calculation? (yes/no)";
+                :Read answer;
+
+                if (answer is "yes" or "y"?) then (no)
+                    :Print "Goodbye!";
+                    stop
+                endif
+            endif
+        endif
+    endif
+repeat while (continue loop)
+
+@enduml
