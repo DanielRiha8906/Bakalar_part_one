@@ -1,4 +1,10 @@
 
+--- 2026-04-03: Issue #8 — New calculator methods ---
+Files changed: src/calculator.py (added 7 new methods + updated run_interactive()), tests/test_calculator.py (added 68 new tests across 7 new test classes), artifacts/calculator_class_diagram.puml (updated)
+Purpose: Add advanced math operations to Calculator: square, power, sqrt, nthroot, percentage, absolute, factorial. Updated the interactive CLI to handle both unary (one-arg) and binary (two-arg) operations correctly.
+Risks: Additive change only — no existing methods modified. factorial() requires explicit int check to prevent silent float truncation. nthroot() handles negative radicands with odd roots via negated exponentiation.
+Testing: python3 -m pytest tests/ — 137 passed, 0 failed (69 original + 68 new tests).
+
 --- 2026-04-03: Issue #12 — User input for calculator ---
 Files changed: src/calculator.py (added run_interactive()), tests/test_calculator.py (added TestRunInteractive with 11 tests), artifacts/calculator_sequence_diagram.puml (revised), artifacts/calculator_activity_diagram.puml (created)
 Purpose: Replace hardcoded __main__ block with an interactive loop (run_interactive()) that prompts the user for an operation and two numbers, displays the result, and asks whether to continue or quit. Supports all four operations and handles invalid input gracefully.

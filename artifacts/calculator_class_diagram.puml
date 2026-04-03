@@ -5,10 +5,29 @@ class Calculator {
     +subtract(a, b) : float
     +multiply(a, b) : float
     +divide(a, b) : float
+    +square(a) : float
+    +power(base, exp) : float
+    +sqrt(a) : float
+    +nthroot(a, n) : float
+    +percentage(a, b) : float
+    +absolute(a) : float
+    +factorial(n) : int
 }
 
 note right of Calculator::divide
   Raises ValueError if b == 0
+end note
+
+note right of Calculator::sqrt
+  Raises ValueError if a < 0
+end note
+
+note right of Calculator::nthroot
+  Raises ValueError if n == 0\nor if a < 0 and n is even
+end note
+
+note right of Calculator::factorial
+  Raises ValueError if n < 0\nor n is not an integer
 end note
 
 @enduml
