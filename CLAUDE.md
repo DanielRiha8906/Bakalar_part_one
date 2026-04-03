@@ -134,3 +134,11 @@ In this project, Claude (this instance) **is** the self-evolution engine. It is 
     - purpose of the change
     - risks
     - how it was tested, and if all the tests passed or not
+
+---
+
+## File Placement
+
+- New source files go in 'src//'
+- New test files go in 'tests/'
+- Keep sources and test directories separate
